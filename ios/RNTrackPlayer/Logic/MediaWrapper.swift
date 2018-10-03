@@ -83,9 +83,11 @@ class MediaWrapper: AudioPlayerDelegate {
         self.queue = []
         self.currentIndex = -1
         self.player = AudioPlayer()
+        self.player.mode = [ .repeat]
         
         self.player.delegate = self
         self.player.bufferingStrategy = .playWhenBufferNotEmpty
+
         
         DispatchQueue.main.async {
             UIApplication.shared.beginReceivingRemoteControlEvents()
