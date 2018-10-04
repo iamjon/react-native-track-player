@@ -18,7 +18,7 @@ import java.util.ListIterator;
  * @author Guilherme Chaguri
  */
 public abstract class Playback {
-
+    protected String mode = "normal";
     protected final Context context;
     protected final MediaManager manager;
     protected List<Track> queue = Collections.synchronizedList(new ArrayList<Track>());
@@ -145,6 +145,14 @@ public abstract class Playback {
     public abstract void pause();
 
     public abstract void stop();
+
+
+    public String getMode() { return mode; }
+
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
 
     /**
      * State from {@link android.support.v4.media.session.PlaybackStateCompat}

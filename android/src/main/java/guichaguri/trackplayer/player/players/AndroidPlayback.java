@@ -14,6 +14,8 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
+
 import com.facebook.react.bridge.Promise;
 import guichaguri.trackplayer.logic.LibHelper;
 import guichaguri.trackplayer.logic.MediaManager;
@@ -247,6 +249,11 @@ public class AndroidPlayback extends Playback implements OnInfoListener, OnCompl
     public void onCompletion(MediaPlayer mp) {
         ended = true;
         updateState();
+
+        if(this.getMode() == "loop") {
+            Log.d(Utils.TAG, "Looping current track");
+            updateCurrentTrack(currentTrack, null);
+        }
 
         if(hasNext()) {
             updateCurrentTrack(currentTrack + 1, null);

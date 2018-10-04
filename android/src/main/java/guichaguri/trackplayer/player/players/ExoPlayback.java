@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
+
 import com.facebook.react.bridge.Promise;
 import com.google.android.exoplayer2.*;
 import com.google.android.exoplayer2.ExoPlayer.EventListener;
@@ -221,6 +223,11 @@ public class ExoPlayback extends Playback implements EventListener {
             loadCallback = null;
 
         } else if(playbackState == SimpleExoPlayer.STATE_ENDED) {
+
+            if (true) {
+                Log.d(Utils.TAG, "Looping current track");
+                updateCurrentTrack(currentTrack, null);
+            }
 
             if(hasNext()) {
                 updateCurrentTrack(currentTrack + 1, null);
