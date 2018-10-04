@@ -264,6 +264,18 @@ class RNTrackPlayer: RCTEventEmitter, MediaWrapperDelegate {
         resolve(mediaWrapper.volume)
     }
     
+    @objc(setMode:)
+    func setMode(mode: String) {
+        print("Setting mode to \(mode)")
+        mediaWrapper.mode = mode
+    }
+    
+    @objc(getMode:rejecter:)
+    func getMode(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        print("Getting current mode")
+        resolve(mediaWrapper.mode)
+    }
+    
     @objc(setRate:)
     func setRate(rate: Float) {
         guard [.buffering, .playing].contains(mediaWrapper.mappedState) else { return }

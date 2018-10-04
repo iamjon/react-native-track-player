@@ -82,6 +82,7 @@ declare namespace RNTrackPlayer {
   export function seekTo(time: number): void;
   export function setVolume(level: number): void;
   export function setRate(rate: number): void;
+  export function setMode(rate: string): void;
 
 
   // Player Getters
@@ -94,4 +95,5 @@ declare namespace RNTrackPlayer {
   export function getBufferedPosition(): Promise<number>;
   export function getState(): Promise<string>;
   export function getRate(): Promise<number>;
+  export function getMode(): Promise<string>;
 }

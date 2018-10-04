@@ -21,6 +21,7 @@ class MediaWrapper: AudioPlayerDelegate {
     private var currentIndex: Int
     private let player: AudioPlayer
     private var trackImageTask: URLSessionDataTask?
+    var mode: String
     
     weak var delegate: MediaWrapperDelegate?
     
@@ -83,6 +84,7 @@ class MediaWrapper: AudioPlayerDelegate {
         self.queue = []
         self.currentIndex = -1
         self.player = AudioPlayer()
+        self.mode = "normal"
         
         
         self.player.delegate = self
@@ -146,6 +148,12 @@ class MediaWrapper: AudioPlayerDelegate {
     }
     
     func playNext() -> Bool {
+        if (self.mode == "loop") {
+            print("Playing Looped");
+            seek(to: 0);
+            play()
+            return true;
+        }
         if queue.indices.contains(currentIndex + 1) {
             currentIndex = currentIndex + 1
             play()
