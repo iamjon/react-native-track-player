@@ -224,7 +224,7 @@ public class ExoPlayback extends Playback implements EventListener {
 
         } else if(playbackState == SimpleExoPlayer.STATE_ENDED) {
 
-            if (true) {
+            if(this.getMode() == "loop") {
                 Log.d(Utils.TAG, "Looping current track");
                 updateCurrentTrack(currentTrack, null);
             }
