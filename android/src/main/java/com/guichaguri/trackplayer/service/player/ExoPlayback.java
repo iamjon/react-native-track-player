@@ -18,6 +18,9 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.guichaguri.trackplayer.service.MusicManager;
 import com.guichaguri.trackplayer.service.Utils;
 import com.guichaguri.trackplayer.service.models.Track;
+
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -60,6 +63,10 @@ public class ExoPlayback implements EventListener {
 
     public List<Track> getQueue() {
         return queue;
+    }
+
+    public void addJonathan(JSONArray kaki) {
+
     }
 
     public void add(Track track, int index, Promise promise) {

@@ -16,6 +16,10 @@ import com.guichaguri.trackplayer.service.MusicBinder;
 import com.guichaguri.trackplayer.service.MusicService;
 import com.guichaguri.trackplayer.service.Utils;
 import com.guichaguri.trackplayer.service.models.Track;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -140,6 +144,34 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
         return constants;
     }
 
+    public static JSONArray toJSONArray(ReadableArray readableArray) throws JSONException {
+        JSONArray jsonArray = new JSONArray();
+
+        for (int i = 0; i < readableArray.size(); i++) {
+            ReadableType type = readableArray.getType(i);
+
+            switch (type) {
+                case Null:
+                    jsonArray.put(i, null);
+                    break;
+                case Boolean:
+                    jsonArray.put(i, readableArray.getBoolean(i));
+                    break;
+                case Number:
+                    jsonArray.put(i, readableArray.getDouble(i));
+                    break;
+                case String:
+                    jsonArray.put(i, readableArray.getString(i));
+                    break;
+                case Array:
+                    jsonArray.put(i, toJSONArray(readableArray.getArray(i)));
+                    break;
+            }
+        }
+
+        return jsonArray;
+    }
+
     @ReactMethod
     public void setupPlayer(ReadableMap data, final Promise promise) {
         final Bundle options = Arguments.toBundle(data);
@@ -158,6 +190,17 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
         final Bundle options = Arguments.toBundle(data);
 
         waitForConnection(() -> binder.updateOptions(options));
+    }
+
+    @ReactMethod
+    public void addJonathan(ReadableArray tracks, final String insertBeforeId, final Promise callback) {
+        try {
+            JSONArray kaki = this.toJSONArray(tracks);
+            binder.getPlayback().addJonathan(kaki);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @ReactMethod
