@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
@@ -12,6 +13,15 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 import com.facebook.react.bridge.*;
 import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.guichaguri.trackplayer.service.MusicBinder;
 import com.guichaguri.trackplayer.service.MusicService;
 import com.guichaguri.trackplayer.service.Utils;
@@ -193,13 +203,18 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
     }
 
     @ReactMethod
-    public void addJonathan(ReadableArray tracks, final String insertBeforeId, final Promise callback) {
-        try {
-            JSONArray kaki = this.toJSONArray(tracks);
-            binder.getPlayback().addJonathan(kaki);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public void addJonathan(ReadableMap tracks) {
+        ReactContext context = getReactApplicationContext();
+        HashMap track = tracks.toHashMap();
+        track.get("id").toString();
+        TrackSelector trackSelector = new DefaultTrackSelector();
+        SimpleExoPlayer exoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
+        ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+        DefaultDataSourceFactory dataSourceFactory = new  DefaultDataSourceFactory(context, "TrackPlayer");
+        Uri audioSourceUri = Uri.parse(track.get("url").toString());
+        MediaSource audioSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(audioSourceUri);
+        exoPlayer.prepare(audioSource);
+        exoPlayer.setPlayWhenReady(true);
 
     }
 
@@ -284,7 +299,8 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
 
     @ReactMethod
     public void reset() {
-        waitForConnection(() -> binder.getPlayback().reset());
+        return;
+        //waitForConnection(() -> binder.getPlayback().reset());
     }
 
     @ReactMethod
