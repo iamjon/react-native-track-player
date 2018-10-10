@@ -4,7 +4,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
-import com.guichaguri.trackplayer.module.MusicModule;
+import com.guichaguri.trackplayer.module.MusicModuleBackUp;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class TrackPlayer implements ReactPackage {
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Collections.singletonList(new MusicModule(reactContext));
+        return Collections.singletonList(new MusicModuleBackUp(reactContext));
     }
 
     @Override
